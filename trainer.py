@@ -13,15 +13,13 @@ class Trainer:
         self.img_width = config.img_width
         self.data = Dataset()
         self.mobileNet = Pretrained_MobileNet()
-        self.utils=Utils()
+        self.utils = Utils()
         # self.mdl = Mdl()
 
     def train(self, plot=True):
-        train_dataset, valid_dataset = self.data.get_images(self.batch_size,self.img_height,self.img_width)
+        train_dataset, valid_dataset = self.data.get_images(self.batch_size, self.img_height, self.img_width)
 
-        self.show_samples()
-
-        labels=list(train_dataset.class_indices.keys())
+        labels = list(train_dataset.class_indices.keys())
 
         model = self.mobileNet.get_model(self.img_height, self.img_width)
         callbacks, best_model_weights = self.mobileNet.getCallBacks()
@@ -43,11 +41,11 @@ class Trainer:
 
     def showImages(self, train_dataset):
         for img in train_dataset.next():
-            print(img.shape) #(32, 224, 224, 3)
+            print(img.shape)  # (32, 224, 224, 3)
             plt.imshow(img[0])
             plt.show()
 
-    def show_samples(self,array_of_images):
+    def show_samples(self, array_of_images):
         n = array_of_images.shape[0]
         total_rows = 1 + int((n - 1) / 5)
         total_columns = 5
@@ -64,14 +62,17 @@ class Trainer:
 
     def saveModel(self, best_model_weights, model, steps_per_epoch, valid_dataset):
         model.load_weights(best_model_weights)
+
         model_score = model.evaluate_generator(valid_dataset, steps=steps_per_epoch)
         print("Model Test Loss:", model_score[0])
         print("Model Test Accuracy:", model_score[1])
+
         model_json = model.to_json()
         with open("model.json", "w") as json_file:
             json_file.write(model_json)
-        # model.save("model.h5")
-        model.save("model_extend.h1")
+
+        #  checkpoints will be saved with the epoch number and the validation loss in the filename
+        model.save(self.utils.getModelDirPath() + 'model-saved.hdf5')
         print("Weights Saved")
 
     def plot_default(self, history):
