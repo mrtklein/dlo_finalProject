@@ -20,6 +20,10 @@ out/
 !.vscode/extensions.json
 *.code-workspace
 
+
+__pycache__/
+
+
 /training_csv.log
 /input/**
 /logs/**
