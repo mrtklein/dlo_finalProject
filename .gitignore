@@ -20,8 +20,7 @@ out/
 !.vscode/extensions.json
 *.code-workspace
 
-.idea
-/base.model/
 /training_csv.log
 /input/**
 /logs/**
+model.json

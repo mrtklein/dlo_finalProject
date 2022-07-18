@@ -7,6 +7,11 @@ from utils import Utils
 
 
 class Pretrained_MobileNet:
+
+
+    def __init__(self):
+        self.utils = Utils()
+
     def get_model(self, img_height, img_width, summary=True):
         model_base = MobileNet(weights='imagenet', include_top=False, input_shape=(img_height, img_width, 3))
         model = Sequential()
@@ -27,25 +32,28 @@ class Pretrained_MobileNet:
 
     def getCallBacks(self):
         # -------Callbacks-------------#
-        best_model_weights = './base.model'
-        utils = Utils()
-        log_dir = utils.getLogPath()
+        #  checkpoints will be saved with the epoch number and the validation loss in the filename
+        # best_model_weights = self.utils.getModelDirPath()+'weights.{epoch:02d}-{val_loss:.2f}.hdf5'
+
+        best_model_weights = self.utils.getModelDirPath()+'best_model.hdf5'
+
+        log_dir = self.utils.getLogPath()
 
         checkpoint = ModelCheckpoint(
             best_model_weights,
-            monitor='val_loss',
+            monitor='val_accuracy',
             verbose=1,
             save_best_only=True,
-            mode='min',
-            save_weights_only=False,
-            period=1
+            mode='max',
+            save_weights_only=False
         )
         earlystop = EarlyStopping(
             monitor='val_loss',
             min_delta=0.001,
             patience=10,
             verbose=1,
-            mode='auto'
+            mode='auto',
+            restore_best_weights=True
         )
         tensorboard = TensorBoard(
             log_dir=log_dir,

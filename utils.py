@@ -23,3 +23,11 @@ class Utils:
             log_dir = self.project_dir + '/logs/'
 
         return log_dir
+
+    def getModelDirPath(self):
+        if self.is_windows:
+            model_dir = self.project_dir + '\\model_results\\'
+        else:
+            model_dir = self.project_dir + '/model_results/'
+
+        return model_dir
