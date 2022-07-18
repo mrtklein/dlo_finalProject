@@ -21,6 +21,14 @@ conda create --name dloEnv --file requirements.txt
 
 * File | Settings | Project: rock_paper_scissors | Python Interpreter => Interpreter auswählen
 
+* Zurzeit funktionieren nur die Bilder von https://www.kaggle.com/datasets/drgfreeman/rockpaperscissors
+* ToDo: Bilder, die Herr Salmen rumgeschickt hat wie folgt bereitsstellen:
+rock_paper_scissors/input/paper
+rock_paper_scissors/input/rest
+rock_paper_scissors/input/rock
+rock_paper_scissors/input/scissors
+* ToDo: Preprocessing der Bilder, da diese unterschiedliche shapes haben
+
 
 * Ausführen über Google Colab (Projekt muss in GDrive gespeichert sein). 
-Datei run_from_colab.ipynb bei Colab hochladen und ausführen
+Datei run_from_colab.ipynb bei Colab hochladen und ausführen. 
