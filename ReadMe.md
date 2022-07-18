@@ -31,4 +31,6 @@ rock_paper_scissors/input/scissors
 
 
 * Ausführen über Google Colab (Projekt muss in GDrive gespeichert sein). 
-Datei run_from_colab.ipynb bei Colab hochladen und ausführen. 
+Datei run_from_colab.ipynb bei Colab hochladen und ausführen.
+
+WARN: Ich konnte das Projekt nicht direkt in GDrive übertragen, da dann Git-Berechtigung gefehlt, um zu committen
