@@ -3,7 +3,7 @@
 ## Group 6:
 * Tim Keinoth, Mat.-Nr. 11134557
 * Tobias Giesler, Mat.-Nr. 11114022
-* ...
+* Florian Graf, Mat.-Nr. 11129196
 
 Zurzeit nur das Projekt aus den Quellen in die Projektstruktur gebracht und teilweise anpassungen gemacht, um es lauffähig zu bekommen.
 
