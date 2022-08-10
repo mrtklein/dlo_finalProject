@@ -27,7 +27,14 @@ rock_paper_scissors/input/paper
 rock_paper_scissors/input/rest
 rock_paper_scissors/input/rock
 rock_paper_scissors/input/scissors
-* ToDo: Preprocessing der Bilder, da diese unterschiedliche shapes haben
+* ToDo: DataLoading (splitten in Train, Test und Val) korrigieren (Flo)
+* ToDo: Model richtig erstellen (Tim)
+* ToDo: Filter für Bilder erstellen (Tobi / bisschen Tim)
+* ToDo: Datenvisualisierung (Rohdaten (Bild)+ bearbeitetes Bild (Filter) anzeigen lassen) (Tobi)
+--> Bilder in Ordner speichern
+--> Nächstes Meeting: Fr. 12.08 10:00 Uhr
+
+* ToDo: Recherche verwandten Projekte, wenn was Gutes gefunden in Readme packen --> (alle)
 
 
 * Ausführen über Google Colab (Projekt muss in GDrive gespeichert sein). 
