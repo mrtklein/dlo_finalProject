@@ -10,7 +10,14 @@ Zurzeit nur das Projekt aus den Quellen in die Projektstruktur gebracht und teil
 
 
 ## Quellen
-* https://www.kaggle.com/code/twhitehurst3/rock-paper-scissors-keras-cnn-99-accuracy
+* https://www.kaggle.com/code/twhitehurst3/rock-paper-scissors-keras-cnn-99-accuracy (Erste Vorlage)
+* https://www.kaggle.com/code/quadeer15sh/tf-keras-cnn-99-accuracy
+  * (Flo schau dir mal Abschnitt "Dividing the Images and Labels" an), (Evtl auch nutzbar sklearn.model_selection.train_test_split)
+  * (Tobi Abschnitt "Visualizing the Images")
+* https://github.com/SouravJohar/rock-paper-scissors => Inder von Youtube (https://youtu.be/0uSA3xyXlwM) 
+
+* Kochbuch ML: https://1drv.ms/u/s!AjNqP96LkzdkhrphpBshiO2RImfU0g?e=pqHTzW 
+  * Kapitel 8: Bilder verarbeiten (z.B. Filter etc.)
 
 ## Einrichtung
 
