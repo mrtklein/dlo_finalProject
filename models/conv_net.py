@@ -15,7 +15,7 @@ class ConvNet:
             Dropout(0.2),
             Flatten(),
             Dense(512, activation='relu'),
-            Dense(3, activation='softmax') #3 categories as output channel
+            Dense(4, activation='softmax') #3 categories as output channel
         ])
 
         model.compile(optimizer='adam',
