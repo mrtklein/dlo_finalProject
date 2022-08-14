@@ -53,14 +53,14 @@ class ConvNet:
             mode='max',
             save_weights_only=False
         )
-        # earlystop = EarlyStopping(
-        #     monitor='val_loss',
-        #     min_delta=0.001,
-        #     patience=10,
-        #     verbose=1,
-        #     mode='auto',
-        #     restore_best_weights=True
-        # )
+        earlystop = EarlyStopping(
+            monitor='val_loss',
+            min_delta=0.001,
+            patience=10,
+            verbose=1,
+            mode='auto',
+            restore_best_weights=True
+        )
         tensorboard = TensorBoard(
             log_dir=log_dir,
         )

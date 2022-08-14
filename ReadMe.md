@@ -39,7 +39,7 @@ conda create --name dloEnv --file requirements.txt
   * ImageDataGenerator => Regularization
   * Callbacks fertig implementieren
   * GridSearchCV einbauen
-  * 
+
 
 
 
