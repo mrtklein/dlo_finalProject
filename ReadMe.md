@@ -29,19 +29,20 @@ conda create --name dloEnv --file requirements.txt
 * File | Settings | Project: rock_paper_scissors | Python Interpreter => Interpreter auswählen
 
 * Zurzeit funktionieren nur die Bilder von https://www.kaggle.com/datasets/drgfreeman/rockpaperscissors
-* ToDo: Bilder, die Herr Salmen rumgeschickt hat wie folgt bereitsstellen:
-rock_paper_scissors/input/paper
-rock_paper_scissors/input/rest
-rock_paper_scissors/input/rock
-rock_paper_scissors/input/scissors
-* ToDo: DataLoading (splitten in Train, Test und Val) korrigieren (Flo)
-* ToDo: Model richtig erstellen (Tim)
-* ToDo: Filter für Bilder erstellen (Tobi / bisschen Tim)
-* ToDo: Datenvisualisierung (Rohdaten (Bild)+ bearbeitetes Bild (Filter) anzeigen lassen) (Tobi)
---> Bilder in Ordner speichern
---> Nächstes Meeting: Fr. 12.08 10:00 Uhr
 
-* ToDo: Recherche verwandten Projekte, wenn was Gutes gefunden in Readme packen --> (alle)
+* ToDo: Datenvisualisierung 
+--> Bilder in Ordner speichern
+
+* ToDo: Colab script schreiben
+
+* ToDo: Optimierung
+  * ImageDataGenerator => Regularization
+  * Callbacks fertig implementieren
+  * GridSearchCV einbauen
+  * 
+
+
+
 
 
 * Ausführen über Google Colab (Projekt muss in GDrive gespeichert sein). 
