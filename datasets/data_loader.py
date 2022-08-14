@@ -1,5 +1,4 @@
 from keras.preprocessing.image import ImageDataGenerator
-import matplotlib.pyplot as plt
 from utils import Utils
 
 
@@ -11,11 +10,12 @@ class DataLoader:
     def get_images(self, batch_size, img_height, img_width):
         data_dir = self.utils.getInputPath()
 
-        # ToDo: Data preprocessing with https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator
+        # Data preprocessing with https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator
         augs_gen = ImageDataGenerator(
+            width_shift_range=0.2,
+            height_shift_range=0.2,
             rescale=1. / 255,
             horizontal_flip=True,
-            height_shift_range=.2,
             vertical_flip=True,
             validation_split=0.2
         )
@@ -26,6 +26,7 @@ class DataLoader:
             batch_size=batch_size,
             class_mode='categorical',
             shuffle=True,
+            subset='training'
         )
 
         val_gen = augs_gen.flow_from_directory(
@@ -37,29 +38,15 @@ class DataLoader:
             subset='validation'
         )
 
+        print("Labels: " + str(list(train_gen.class_indices.keys())))
         print("number_of_train_sample " + str(len(train_gen)))
         print("number_of_validation_sample " + str(len(val_gen)))
 
         return train_gen, val_gen
 
-    def print_array_info(v):
+    def print_array_info(self, v):
         print("{} is of type {} with shape {} and dtype {}".format(v,
                                                                    eval("type({})".format(v)),
                                                                    eval("{}.shape".format(v)),
                                                                    eval("{}.dtype".format(v))
                                                                    ))
-    # def format_example(image, label):
-    #     image = tf.cast(image, tf.float32)
-    #     image = (image / 127.5) - 1
-    #     image = tf.image.resize(image, (img_height, img_width))
-    #     return image, label
-    #
-    # train = raw_train.map(format_example)
-    # validation = raw_validation.map(format_example)
-    # test = raw_test.map(format_example)
-    #
-    # train_batches = train.shuffle(shuffle_buffer_size).batch(batch_size)
-    # validation_batches = validation.batch(batch_size)
-    # test_batches = test.batch(batch_size)
-    #
-    # return train_batches, validation_batches, test_batches
