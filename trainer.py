@@ -19,7 +19,8 @@ class Trainer:
     def train(self, plot=True):
         train_dataset, valid_dataset = self.data.get_images(self.batch_size, self.img_height, self.img_width)
 
-        self.visualizer.visualize_raw_data("rock", "0050")
+        # ToDo: Wie greift man auf den Iterator zu um die Images zu plotten
+        # self.visualizer.plotImagePyPlot(train_dataset)
 
         model = self.cnnModel.get_model(self.img_height, self.img_width)
 

@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from utils import Utils
+from matplotlib import pyplot
 
 
 class Visualizer:
@@ -19,3 +20,24 @@ class Visualizer:
             plt.imshow(dataset[img_number])
             plt.title('Label:  {labels[datalabel[img_number]]}')
             img_number += 1
+
+    def plotImage(self, batch):
+        fig, ax = plt.subplots(ncols=4, figsize=(20, 20))
+        for idx, img in enumerate(batch[0][:4]):
+            ax[idx].imshow(img.astype(int))
+            ax[idx].title.set_text(batch[1][idx])
+        plt.show()
+
+    def plotImagePyPlot(self, it):
+        # generate samples and plot
+        for i in range(9):
+            # define subplot
+            pyplot.subplot(330 + 1 + i)
+            # generate batch of images
+            batch = it.next()
+            # convert to unsigned integers for viewing
+            image = batch[0].astype('uint8')
+            # plot raw pixel data
+            pyplot.imshow(image)
+        # show the figure
+        pyplot.show()
