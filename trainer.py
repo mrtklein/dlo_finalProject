@@ -16,10 +16,10 @@ class Trainer:
         self.cnnModel = ConvNet()
 
     def train(self, plot=True):
-        X_train, X_val, y_train, y_val = self.data.get_images(self.utils.getInputPath(), self.img_height,
-                                                                self.img_width)
+        train, val, test = self.data.get_images(self.utils.getInputPath(), self.img_height,
+                                                self.img_width)
 
-        datagen, testgen, y_train, y_val= self.data.preprocessImages()
+        datagen = self.data.preprocessImages(train)
 
         model = self.cnnModel.get_model(self.img_height, self.img_width)
 
