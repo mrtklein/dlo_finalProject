@@ -5,8 +5,6 @@
 * Tobias Giesler, Mat.-Nr. 11114022
 * Florian Graf, Mat.-Nr. 11129196
 
-Zurzeit nur das Projekt aus den Quellen in die Projektstruktur gebracht und teilweise anpassungen gemacht, um es lauffähig zu bekommen.
-
 
 
 ## Quellen
@@ -19,6 +17,7 @@ Zurzeit nur das Projekt aus den Quellen in die Projektstruktur gebracht und teil
 * Kochbuch ML: https://1drv.ms/u/s!AjNqP96LkzdkhrphpBshiO2RImfU0g?e=pqHTzW 
   * Kapitel 8: Bilder verarbeiten (z.B. Filter etc.)
 
+
 ## Einrichtung
 
 * Über die Anaconda Prompt eine Umgebung erstellen und alle nötigen Packagen installieren
@@ -28,12 +27,16 @@ conda create --name dloEnv --file requirements.txt
 
 * File | Settings | Project: rock_paper_scissors | Python Interpreter => Interpreter auswählen
 
-* Zurzeit funktionieren nur die Bilder von https://www.kaggle.com/datasets/drgfreeman/rockpaperscissors
 
+* Ausführen über Google Colab:
+  * script run_py_from_drive.ipynb bei colab hochladen
+  * falls das Repo noch nicht auf hdrive ist muss der input ordner noch in das repo kopiert werden
+
+
+
+Aufgaben verteilung:
 * ToDo: Datenvisualisierung 
 --> Bilder in Ordner speichern
-
-* ToDo: Colab script schreiben
 
 * ToDo: Optimierung
   * ImageDataGenerator => Regularization
@@ -44,8 +47,3 @@ conda create --name dloEnv --file requirements.txt
 
 
 
-
-* Ausführen über Google Colab (Projekt muss in GDrive gespeichert sein). 
-Datei run_from_colab.ipynb bei Colab hochladen und ausführen.
-
-WARN: Ich konnte das Projekt nicht direkt in GDrive übertragen, da dann Git-Berechtigung gefehlt, um zu committen
