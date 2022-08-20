@@ -14,13 +14,13 @@ class Trainer:
         self.data = Dataset()
         self.cnnModel = ConvNet()
         self.utils = Utils()
-        self.visualizer=Visualizer()
+        self.visualizer = Visualizer()
 
     def train(self, plot=True):
         train_dataset, valid_dataset = self.data.get_images(self.batch_size, self.img_height, self.img_width)
 
-        # ToDo: Wie greift man auf den Iterator zu um die Images zu plotten
-        # self.visualizer.plotImagePyPlot(train_dataset)
+        imgs, labels = next(train_dataset)
+        self.visualizer.plot_batch(imgs, titles=labels, filename="Batch_Augmentation"+str(self.img_height)+"x"+str(self.img_height)+".png")
 
         model = self.cnnModel.get_model(self.img_height, self.img_width)
 
@@ -35,11 +35,11 @@ class Trainer:
         )
 
         if plot:
-            self.plot_default(history)
+            self.plot_history(history)
 
         self.saveModel(best_model_weights, model, valid_dataset)
 
-    def plot_default(self, history):
+    def plot_history(self, history):
         print("History keys: " + str(history.history.keys()))
 
         acc = history.history['accuracy']
@@ -48,7 +48,7 @@ class Trainer:
         loss = history.history['loss']
         val_loss = history.history['val_loss']
 
-        epochs_range = range(self.epochs)
+        epochs_range = range(len(acc))
 
         plt.figure(figsize=(8, 8))
         plt.subplot(1, 2, 1)
@@ -62,6 +62,7 @@ class Trainer:
         plt.plot(epochs_range, val_loss, color='orange', label='Validation Loss')
         plt.legend(loc='upper right')
         plt.title('Training and Validation Loss')
+        plt.savefig("Result__" + "Val_acc:" + str(max(val_acc) + "_Val_loss:" + str(max(val_loss))))
         plt.show()
 
     def saveModel(self, best_model_weights, model, valid_dataset):

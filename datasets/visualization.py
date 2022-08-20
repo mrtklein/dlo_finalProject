@@ -1,6 +1,7 @@
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
 from utils import Utils
 from matplotlib import pyplot
+import numpy as np
 
 
 class Visualizer:
@@ -21,23 +22,38 @@ class Visualizer:
             plt.title('Label:  {labels[datalabel[img_number]]}')
             img_number += 1
 
-    def plotImage(self, batch):
-        fig, ax = plt.subplots(ncols=4, figsize=(20, 20))
-        for idx, img in enumerate(batch[0][:4]):
-            ax[idx].imshow(img.astype(int))
-            ax[idx].title.set_text(batch[1][idx])
+
+    def plot_batch(self, ims, figsize=(12, 6), rows=4, titles=None, filename='batchFig.png'):
+        """
+
+        :param ims: batch of data
+        :param figsize:
+        :param rows:
+        :param titles: One-Hot Encoded Titles of the images
+        :param filename: Name of the file which will be saved
+        """
+        if type(ims[0]) is np.ndarray:
+            ims = np.array(ims)
+            if (ims.shape[-1] != 3):
+                ims = ims.transpose((0, 2, 3, 1))
+        f = plt.figure(figsize=figsize)
+        cols = len(ims) // rows if len(ims) % 2 == 0 else len(ims) // rows + 1
+        for i in range(rows * cols):
+            sp = f.add_subplot(rows, cols, i + 1)
+            sp.axis('Off')
+            if titles is not None:
+                curr_title = self.getImageTitel(titles[i])
+                sp.set_title(curr_title, fontsize=10)
+            plt.imshow(ims[i])
+        plt.savefig(filename)
         plt.show()
 
-    def plotImagePyPlot(self, it):
-        # generate samples and plot
-        for i in range(9):
-            # define subplot
-            pyplot.subplot(330 + 1 + i)
-            # generate batch of images
-            batch = it.next()
-            # convert to unsigned integers for viewing
-            image = batch[0].astype('uint8')
-            # plot raw pixel data
-            pyplot.imshow(image)
-        # show the figure
-        pyplot.show()
+    def getImageTitel(self, one_hot_encode_title):
+        if all(one_hot_encode_title == [0, 0, 0, 1]):
+            return "scissors"
+        if all(one_hot_encode_title == [0, 0, 1, 0]):
+            return "rock"
+        if all(one_hot_encode_title == [0, 1, 0, 0]):
+            return "rest"
+        if all(one_hot_encode_title == [1, 0, 0, 0]):
+            return "paper"

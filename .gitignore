@@ -24,7 +24,7 @@ out/
 __pycache__/
 
 
-/training_csv.log
+/OldTrainLogs/training_csv.log
 /input/**
 /logs/**
 model.json
