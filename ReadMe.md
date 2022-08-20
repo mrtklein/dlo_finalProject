@@ -38,10 +38,10 @@ Aufgaben verteilung:
 * ToDo: Datenvisualisierung 
 --> Bilder in Ordner speichern
 
-* ToDo: Optimierung
-  * ImageDataGenerator => Regularization
-  * Callbacks fertig implementieren
-  * GridSearchCV einbauen
+* ToDo:
+  * Filter size & Padding & Image size => unterschiedlich große Seitenverhältnisse ML
+  * FCL - Size 
+  * 
 
 
 
