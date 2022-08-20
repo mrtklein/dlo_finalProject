@@ -12,12 +12,13 @@ class DataLoader:
 
         # Data preprocessing with https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator
         augs_gen = ImageDataGenerator(
-            width_shift_range=0.2,
-            height_shift_range=0.2,
+            # width_shift_range=0.2,
+            # height_shift_range=0.2,
             rescale=1. / 255,
-            horizontal_flip=True,
-            vertical_flip=True,
-            validation_split=0.2
+            horizontal_flip=False,
+            vertical_flip=False,
+            validation_split=0.2,
+
         )
 
         train_gen = augs_gen.flow_from_directory(
@@ -26,6 +27,8 @@ class DataLoader:
             batch_size=batch_size,
             class_mode='categorical',
             shuffle=True,
+            seed=42,  # random seed for shuffling and transformations.
+            save_to_dir=self.utils.getInputBatchesPath(),
             subset='training'
         )
 

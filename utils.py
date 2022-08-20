@@ -16,6 +16,14 @@ class Utils:
 
         return data_dir
 
+    def getInputBatchesPath(self):
+        if self.is_windows:
+            data_dir = self.project_dir + '\\input_batches\\'
+        else:
+            data_dir = self.project_dir + '/input_batches/'
+
+        return data_dir
+
     def getLogPath(self):
         if self.is_windows:
             log_dir = self.project_dir + '\\logs\\'

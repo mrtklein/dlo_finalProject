@@ -28,3 +28,4 @@ __pycache__/
 /input/**
 /logs/**
 model.json
+/input_batches/
