@@ -37,6 +37,8 @@ class Trainer:
             verbose=1
         )
 
+        print("HURENSOHN")
+        
         if plot:
             self.plot_history(history)
 
