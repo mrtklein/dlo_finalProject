@@ -21,7 +21,7 @@ def main():
     trainer = Trainer(config)
 
     trainer.train()
-
+    # trainer.loadLogFile('training_csv.log')
 
 
 if __name__ == "__main__":

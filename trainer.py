@@ -3,6 +3,7 @@ from datasets.data_loader import DataLoader as Dataset
 from datasets.visualization import Visualizer
 from models.conv_net import ConvNet
 from utils import Utils
+import pandas as pd
 
 
 class Trainer:
@@ -20,7 +21,9 @@ class Trainer:
         train_dataset, valid_dataset = self.data.get_images(self.batch_size, self.img_height, self.img_width)
 
         imgs, labels = next(train_dataset)
-        self.visualizer.plot_batch(imgs, titles=labels, filename="Batch_Augmentation"+str(self.img_height)+"x"+str(self.img_height)+".png")
+        self.visualizer.plot_batch(imgs, titles=labels,
+                                   filename="Batch_Augmentation" + str(self.img_height) + "x" + str(
+                                       self.img_height) + ".png")
 
         model = self.cnnModel.get_model(self.img_height, self.img_width)
 
@@ -48,22 +51,9 @@ class Trainer:
         loss = history.history['loss']
         val_loss = history.history['val_loss']
 
-        epochs_range = range(len(acc))
+        self.visualizer.drawHistory(acc, loss, val_acc, val_loss)
 
-        plt.figure(figsize=(8, 8))
-        plt.subplot(1, 2, 1)
-        plt.plot(epochs_range, acc, color='teal', label='Training Accuracy')
-        plt.plot(epochs_range, val_acc, color='orange', label='Validation Accuracy')
-        plt.legend(loc='lower right')
-        plt.title('Training and Validation Accuracy')
 
-        plt.subplot(1, 2, 2)
-        plt.plot(epochs_range, loss, color='teal', label='Training Loss')
-        plt.plot(epochs_range, val_loss, color='orange', label='Validation Loss')
-        plt.legend(loc='upper right')
-        plt.title('Training and Validation Loss')
-        plt.savefig("Result__" + "Val_acc:" + str(max(val_acc) + "_Val_loss:" + str(max(val_loss))))
-        plt.show()
 
     def saveModel(self, best_model_weights, model, valid_dataset):
         model.load_weights(best_model_weights)
@@ -79,3 +69,8 @@ class Trainer:
         #  checkpoints will be saved with the epoch number and the validation loss in the filename
         model.save(self.utils.getModelDirPath() + 'model-saved.hdf5')
         print("Weights Saved")
+
+    def loadLogFile(self, path):
+        df = pd.read_csv(path, index_col='epoch')
+        print(df)
+        self.visualizer.drawHistory(df.accuracy, df.loss, df.val_accuracy, df.val_loss)
