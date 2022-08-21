@@ -58,10 +58,8 @@ class ConvNet:
         )
         earlystop = EarlyStopping(
             monitor='val_loss',
-            min_delta=0.01,
-            patience=30,
+            patience=20,
             verbose=1,
-            mode='auto',
             restore_best_weights=True
         )
         tensorboard = TensorBoard(
