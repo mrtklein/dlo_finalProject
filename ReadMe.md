@@ -41,7 +41,36 @@ Aufgaben verteilung:
 * ToDo:
   * Filter size & Padding & Image size => unterschiedlich große Seitenverhältnisse ML
   * FCL - Size 
-  * 
+
+
+
+Kochbuch vom Salmen:
+
+Step 1:
+ * Lossfunktion festlegen
+ * Leistung des Netzes testen
+
+Step 2:
+ * Andere netze im gleichen Bereich vergleichen
+ * Topologische struktur entscheiden (CNN)
+ * Aktivierungsfunktion festlegen
+ 
+Step 3:
+ * Optimierungsalgorithmus festlegen (SGD mit Momentum/learning rate decay/adam)
+ * Batch normalization testen 
+ * Regularisierung wenn nötig
+ * transfer learning mit vortrainierten Netzen (ggf.)
+ 
+Step 4:
+ * Vergleich Trainingsfehler mit Ziel/Erwartung (Folie 394)
+ * Schlechte Ergebnisse im Training? -> Netz/Training verändern
+ * Gute Ergebnisse im Training aber schlechte auf Testdaten? -> Hyperparameter optimieren
+
+Step 5 (Optimierung):
+ * Effektive Kapazität des Modells anpassen an Komplexität des Problems
+   -> Mehr Neuronen/Verbindungen
+   -> CNN Filter Vergrößern
+   -> Dropout verringern
 
 
 
