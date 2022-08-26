@@ -73,6 +73,7 @@ Step 5 (Optimierung):
    -> Dropout verringern
 
 
+Inhaltsverzeichnis
 
 1. Einleitung {Tobi}
 2. Related work (Kaggle) {Tobi}
