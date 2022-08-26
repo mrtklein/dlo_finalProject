@@ -74,5 +74,19 @@ Step 5 (Optimierung):
 
 
 
-
+1. Einleitung {Tobi}
+2. Related work (Kaggle) {Tobi}
+3. Daten, Dataset Augmentation {Flo}
+4. Modell Architektur, Lossfunktion, Aktivierungsfunktion,Baseline tests {Tim}
+	- Quellen zu anderen Klassifizierungsnetzen
+	- Warum Categorical cross entropy (Flo)
+	- Warum ReLU
+	- Warum Softmax
+5. Leistung Netz Testen, Early stopping {Flo}
+	- Baseline tests: Tests mit wenigen bildern, um zu zeigen das das Modell das Problem lernen kann
+6. Regularisierung {Flo}
+	- Was ist Overfitting (Warum Regularisierung) [kurz]
+	- Was wurde gemacht (Methoden erklären [kurz])
+7. Optimierung (Fehlt noch)
+8. Zusammenfassung und Ausblick (Fazit)
 
