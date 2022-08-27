@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+from keras.callbacks import ReduceLROnPlateau, ModelCheckpoint
+
 from datasets.data_loader import DataLoader as Dataset
 from datasets.visualization import Visualizer
 from models.conv_net import ConvNet
@@ -15,7 +17,7 @@ class Trainer:
         self.img_width = config.img_width
         self.data = Dataset()
         self.cnnModel = ConvNet()
-        self.model_pretrained=Pretrained_Model()
+        self.model_pretrained = Pretrained_Model()
         self.utils = Utils()
         self.visualizer = Visualizer()
 
@@ -27,7 +29,7 @@ class Trainer:
                                    filename="Batch_Augmentation" + str(self.img_height) + "x" + str(
                                        self.img_height) + ".png")
 
-        model = self.cnnModel.get_model(self.img_height, self.img_width)
+        # model = self.cnnModel.get_model(self.img_height, self.img_width)
 
         backbone = self.model_pretrained.createBackboneModel(vgg=True)
         backbone.summary()
@@ -49,6 +51,28 @@ class Trainer:
             self.plot_history(history)
 
         self.saveModel(best_model_weights, model, valid_dataset)
+
+    def fitandPlot(self, model, dataAug, train_data, valid_dataset, EPOCHS=20, INIT_LR=1e-1, BS=64):
+        # Learning Rate Reducer
+        learn_control = ReduceLROnPlateau(
+            monitor='val_accuracy',
+            patience=5,
+            verbose=1, factor=0.2,
+            min_lr=1e-7)  # Checkpoint
+        filepath = "weights.best.hdf5"
+        checkpoint = ModelCheckpoint(filepath,
+                                     monitor='val_accuracy',
+                                     verbose=1,
+                                     save_best_only=True,
+                                     mode='max')
+
+        history = model.fit(
+            train_data,
+            epochs=EPOCHS,
+            validation_data=valid_dataset,
+            callbacks=[learn_control, checkpoint])
+
+        self.plot_history(history)
 
     def plot_history(self, history):
         print("History keys: " + str(history.history.keys()))

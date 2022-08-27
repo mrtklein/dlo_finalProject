@@ -1,7 +1,8 @@
 from keras.applications.densenet import DenseNet201
 from keras.applications.resnet import ResNet50
 from keras.applications.vgg16 import VGG16
-from keras.optimizer_v1 import SGD, Adam
+from keras.optimizer_v2.adam import Adam
+from keras.optimizer_v2.gradient_descent import SGD
 from tensorflow import keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
@@ -27,9 +28,6 @@ class Pretrained_Model:
         :param drpout2:
         :return:
         """
-        EPOCHS = 50
-        INIT_LR = 1e-1
-        BS = 128
         model = Sequential()
         model.add(backbone)
         model.add(Dropout(drpout1))
@@ -139,6 +137,13 @@ class Pretrained_Model:
 
         # lrsched = LearningRateScheduler(step_decay,verbose=1)
         #
+        # Learning Rate Reducer
+        learn_control = ReduceLROnPlateau(
+            monitor='val_accuracy',
+            patience=50,
+            verbose=1, factor=0.2,
+            min_lr=1e-7)  # Checkpoint
+
         # reduce = ReduceLROnPlateau(
         #     monitor='val_loss',
         #     factor=0.5,
@@ -147,4 +152,4 @@ class Pretrained_Model:
         #     mode='auto',
         #     cooldown=1
         # )
-        return [checkpoint, earlystop, tensorboard, csvlogger], best_model_weights
+        return [checkpoint, earlystop, tensorboard, csvlogger,learn_control], best_model_weights

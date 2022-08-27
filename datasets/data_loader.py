@@ -19,8 +19,8 @@ class DataLoader:
             #height_shift_range=0.2,
             #rotation_range=90,  # => random rotations via the rotation_range argument
             #brightness_range=[0.5, 1.2], #=>  randomly darkening images, brightening images (<1.0=>darken,>1.0 brightness)
-            horizontal_flip=False,  # => Randomly flip inputs horizontally.
-            vertical_flip=False,
+            # horizontal_flip=False,  # => Randomly flip inputs horizontally.
+            # vertical_flip=False,
             #zoom_range=0.2,  # zoom in or out in images,
             rescale=1. / 255,  # => Normalization
             validation_split=0.2,

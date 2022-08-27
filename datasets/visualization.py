@@ -65,16 +65,16 @@ class Visualizer:
         plt.plot(epochs_range, acc, color='teal', label='Training Accuracy')
         plt.plot(epochs_range, val_acc, color='orange', label='Validation Accuracy')
         plt.legend(loc='lower right')
-        plt.xlabel("Epochs", 
-           family='serif', 
-           color='black', 
-           weight='normal', 
+        plt.xlabel("Epochs",
+           family='serif',
+           color='black',
+           weight='normal',
            size = 16,
            labelpad = 6)
-        plt.ylabel("Accuracy in %", 
-           family='serif', 
-           color='black', 
-           weight='normal', 
+        plt.ylabel("Accuracy in %",
+           family='serif',
+           color='black',
+           weight='normal',
            size = 16,
            labelpad = 6)
         plt.title('Training and Validation Accuracy')
@@ -82,24 +82,25 @@ class Visualizer:
         plt.plot(epochs_range, loss, color='teal', label='Training Loss')
         plt.plot(epochs_range, val_loss, color='orange', label='Validation Loss')
         plt.legend(loc='upper right')
-        plt.xlabel("Epochs", 
-           family='serif', 
-           color='black', 
-           weight='normal', 
+        plt.xlabel("Epochs",
+           family='serif',
+           color='black',
+           weight='normal',
            size = 16,
            labelpad = 6)
-        plt.ylabel("Loss in %", 
-           family='serif', 
-           color='black', 
-           weight='normal', 
+        plt.ylabel("Loss in %",
+           family='serif',
+           color='black',
+           weight='normal',
            size = 16,
            labelpad = 6)
         plt.title('Training and Validation Loss')
         plt.savefig("Result__" + "Val_acc" + str(round(max(val_acc),2)) + "_Val_loss" + str(round(max(val_loss),2)) + ".png")
         plt.subplots_adjust(left=0.1,
-                    bottom=0.1, 
-                    right=0.9, 
-                    top=0.9, 
-                    wspace=0.4, 
+                    bottom=0.1,
+                    right=0.9,
+                    top=0.9,
+                    wspace=0.4,
                     hspace=0.4)
         plt.show()
+
