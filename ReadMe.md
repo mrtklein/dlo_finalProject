@@ -12,7 +12,6 @@
 * https://www.kaggle.com/code/quadeer15sh/tf-keras-cnn-99-accuracy
   * (Flo schau dir mal Abschnitt "Dividing the Images and Labels" an), (Evtl auch nutzbar sklearn.model_selection.train_test_split)
   * (Tobi Abschnitt "Visualizing the Images") hab die Visualisierung erstellt, würde sehr gerne morgen mit dir (Tim) über die Filter quatschen.
-* https://github.com/SouravJohar/rock-paper-scissors => Inder von Youtube (https://youtu.be/0uSA3xyXlwM) 
 
 * Kochbuch ML: https://1drv.ms/u/s!AjNqP96LkzdkhrphpBshiO2RImfU0g?e=pqHTzW 
   * Kapitel 8: Bilder verarbeiten (z.B. Filter etc.)

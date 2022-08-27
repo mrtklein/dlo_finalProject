@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from datasets.data_loader import DataLoader as Dataset
 from datasets.visualization import Visualizer
 from models.conv_net import ConvNet
+from models.pretrained_model import Pretrained_Model
 from utils import Utils
 import pandas as pd
 
@@ -14,6 +15,7 @@ class Trainer:
         self.img_width = config.img_width
         self.data = Dataset()
         self.cnnModel = ConvNet()
+        self.model_pretrained=Pretrained_Model()
         self.utils = Utils()
         self.visualizer = Visualizer()
 
@@ -27,7 +29,13 @@ class Trainer:
 
         model = self.cnnModel.get_model(self.img_height, self.img_width)
 
-        callbacks, best_model_weights = self.cnnModel.getCallBacks()
+        backbone = self.model_pretrained.createBackboneModel(vgg=True)
+        backbone.summary()
+
+        model = self.model_pretrained.createModel(backbone, lr=1e-4, drpout1=0.3, drpout2=0.2)
+        model.summary()
+
+        callbacks, best_model_weights = self.model_pretrained.getCallBacks()
 
         history = model.fit(
             train_dataset,
@@ -37,8 +45,6 @@ class Trainer:
             verbose=1
         )
 
-        print("HURENSOHN")
-        
         if plot:
             self.plot_history(history)
 
@@ -54,8 +60,6 @@ class Trainer:
         val_loss = history.history['val_loss']
 
         self.visualizer.drawHistory(acc, loss, val_acc, val_loss)
-
-
 
     def saveModel(self, best_model_weights, model, valid_dataset):
         model.load_weights(best_model_weights)
