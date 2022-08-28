@@ -39,3 +39,11 @@ class Utils:
             model_dir = self.project_dir + '/model_results/'
 
         return model_dir
+
+    def getWrong_predictedDirPath(self):
+        if self.is_windows:
+            model_dir = self.project_dir + '\\wrong_predicted\\'
+        else:
+            model_dir = self.project_dir + '/wrong_predicted/'
+
+        return model_dir

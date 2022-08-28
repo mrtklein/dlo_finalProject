@@ -23,8 +23,8 @@ def main():
 
     # trainer.train()
     # trainer.loadLogFile('training_csv.log')
-    trainer.predictValidationData(Utils().getModelDirPath() + 'best_model_resnet.hdf5')
-
+    # trainer.showConfusionMatrix(Utils().getModelDirPath() + 'best_model_vgg.hdf5')
+    trainer.saveWrongPredictions(Utils().getModelDirPath() + 'best_model_resnet.hdf5')
 
 if __name__ == "__main__":
     main()

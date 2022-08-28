@@ -57,6 +57,27 @@ class Visualizer:
         if all(one_hot_encode_title == [1, 0, 0, 0]):
             return "paper"
 
+    def show_save_ImgPredictVsActual(self, img, y_pred, pred_probability, y_target, path):
+        f = plt.figure(figsize=(15, 8))
+        plt.title(
+            f"Prediction:{y_pred} ({pred_probability}%). Actual label: {y_target}")
+        plt.imshow(img)
+        plt.axis("off")
+        plt.savefig(path + "Pred_" + y_pred + "__" + "Actual_" + y_target + ".png")
+        plt.show()
+        plt.clf()
+
+
+    def getImageTitelCatNumber(self, catNumber):
+        if catNumber == 3:
+            return "scissors"
+        if catNumber == 2:
+            return "rock"
+        if catNumber == 1:
+            return "rest"
+        if catNumber == 0:
+            return "paper"
+
     def drawHistory(self, acc, loss, val_acc, val_loss):
         epochs_range = range(len(acc))
         plt.figure(figsize=(10, 10))
@@ -108,5 +129,5 @@ class Visualizer:
         sns.heatmap(dataframe, annot=True, fmt="g", cmap="Blues")
         plt.title("Konfusionsmatrix"), plt.tight_layout()
         plt.ylabel("Echte Klasse"), plt.xlabel("Vorhergesagte Klasse")
-        plt.savefig("Confusion_matrix_resnet.png")
+        plt.savefig("vgg_Confusion_matrix.png")
         plt.show()

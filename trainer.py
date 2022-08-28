@@ -1,8 +1,5 @@
 import numpy as np
-from keras.callbacks import ReduceLROnPlateau, ModelCheckpoint
 from keras.models import load_model
-from matplotlib import pyplot as plt
-from sklearn.metrics import plot_confusion_matrix
 from tensorflow.python.ops.confusion_matrix import confusion_matrix
 
 from datasets.data_loader import DataLoader as Dataset
@@ -88,7 +85,7 @@ class Trainer:
         print(df)
         self.visualizer.drawHistory(df.accuracy, df.loss, df.val_accuracy, df.val_loss)
 
-    def predictValidationData(self, model_path):
+    def showConfusionMatrix(self, model_path):
         train_dataset, valid_dataset = self.data.get_images(self.batch_size, self.img_height, self.img_width)
 
         model = load_model(model_path)
@@ -100,3 +97,54 @@ class Trainer:
         dataframe = pd.DataFrame(matrix, index=valid_dataset.class_indices.keys(),
                                  columns=valid_dataset.class_indices.keys())
         self.visualizer.showHeatmap(dataframe)
+
+    def saveWrongPredictions(self, model_path, wrong_rock=True):
+        train_dataset, valid_dataset = self.data.get_images(self.batch_size, self.img_height, self.img_width)
+
+        model = load_model(model_path)
+
+        wrong_predicted = self.getWrongPredictions(model, valid_dataset)
+
+        print(f"There are {str(len(wrong_predicted))} wrong predictions.")
+
+        if wrong_rock:
+            wrong_rock = list(filter(lambda wrong_predicted: wrong_predicted['prediction'] == 'rock', wrong_predicted))
+            count = 0
+            for img in wrong_rock:
+                img_file = img['image']
+                y_pred = img['prediction']
+                probability = img['probability']
+                y_target = img['actual']
+                count = count + 1
+                self.visualizer.show_save_ImgPredictVsActual(img_file, y_pred, probability, y_target,
+                                                             self.utils.getWrong_predictedDirPath() + "wrong_rock" + str(
+                                                                 count))
+
+    def getWrongPredictions(self, model, valid_dataset):
+        wrong_predicted = []
+        batch_idx = 0
+        while batch_idx < len(valid_dataset):
+            try:
+                images, labels = next(valid_dataset)
+                target_predicted = model.predict(images, batch_size=1)
+                predicted_class_indices = np.argmax(target_predicted, axis=1)
+
+                for i in range(len(predicted_class_indices)):
+                    y_pred = self.visualizer.getImageTitelCatNumber(predicted_class_indices[i])
+                    pred_probability = '{0:.3f}'.format(max(target_predicted[i]))
+                    y_target = self.visualizer.getImageTitel(labels[i])
+
+                    if y_pred != y_target:
+                        wrong_predicted.append(
+                            {
+                                "image": images[i],
+                                "prediction": y_pred,
+                                "probability": pred_probability,
+                                "actual": y_target
+                            })
+                        print(f"Image {i} in batch {batch_idx} of {len(valid_dataset)}")
+                batch_idx = batch_idx + 1
+            except StopIteration:
+                print("StopIteration")
+                break
+        return wrong_predicted
