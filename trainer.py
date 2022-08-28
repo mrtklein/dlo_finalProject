@@ -1,5 +1,8 @@
+import numpy as np
 from keras.callbacks import ReduceLROnPlateau, ModelCheckpoint
 from keras.models import load_model
+from matplotlib import pyplot as plt
+from sklearn.metrics import plot_confusion_matrix
 from tensorflow.python.ops.confusion_matrix import confusion_matrix
 
 from datasets.data_loader import DataLoader as Dataset
@@ -9,6 +12,7 @@ from models.pretrained_model import Pretrained_Model
 from utils import Utils
 import pandas as pd
 from keras.utils.vis_utils import plot_model
+
 
 class Trainer:
     def __init__(self, config):
@@ -84,19 +88,15 @@ class Trainer:
         print(df)
         self.visualizer.drawHistory(df.accuracy, df.loss, df.val_accuracy, df.val_loss)
 
-    def predictValidationData_showConfusionMatrix(self, model_path):
+    def predictValidationData(self, model_path):
         train_dataset, valid_dataset = self.data.get_images(self.batch_size, self.img_height, self.img_width)
 
         model = load_model(model_path)
 
         target_predicted = model.predict(valid_dataset)
-
+        target_predicted = np.argmax(target_predicted, axis=1)
         # Konfusionsmatrix erzeugen
         matrix = confusion_matrix(valid_dataset.labels, target_predicted)
-        dataframe = pd.DataFrame(matrix, index=valid_dataset.class_indices.keys(), columns=valid_dataset.class_indices.keys())
-
-        # Heatmap erzeugen
-        sns.heatmap(dataframe, annot=True, cbar=None, cmap="Blues")
-        plt.title("Konfusionsmatrix"), plt.tight_layout()
-        plt.ylabel("Echte Klasse"), plt.xlabel("Vorhergesagte Klasse")
-        plt.show()
+        dataframe = pd.DataFrame(matrix, index=valid_dataset.class_indices.keys(),
+                                 columns=valid_dataset.class_indices.keys())
+        self.visualizer.showHeatmap(dataframe)

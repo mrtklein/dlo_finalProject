@@ -4,6 +4,7 @@ import sys
 import tensorflow as tf
 
 from trainer import Trainer
+from utils import Utils
 
 
 def main():
@@ -20,8 +21,9 @@ def main():
 
     trainer = Trainer(config)
 
-    trainer.train()
+    # trainer.train()
     # trainer.loadLogFile('training_csv.log')
+    trainer.predictValidationData(Utils().getModelDirPath() + 'best_model_resnet.hdf5')
 
 
 if __name__ == "__main__":
