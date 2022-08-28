@@ -75,7 +75,7 @@ class Pretrained_Model:
         #  checkpoints will be saved with the epoch number and the validation loss in the filename
         # best_model_weights = self.utils.getModelDirPath()+'weights.{epoch:02d}-{val_loss:.2f}.hdf5'
 
-        best_model_weights = self.utils.getModelDirPath() + 'best_model.hdf5'
+        best_model_weights = self.utils.getModelDirPath() + 'best_model-{val_acc:.2f}.hdf5'
 
         log_dir = self.utils.getLogPath()
 
