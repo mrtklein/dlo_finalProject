@@ -1,5 +1,6 @@
-import matplotlib.pyplot as plt
 from keras.callbacks import ReduceLROnPlateau, ModelCheckpoint
+from keras.models import load_model
+from tensorflow.python.ops.confusion_matrix import confusion_matrix
 
 from datasets.data_loader import DataLoader as Dataset
 from datasets.visualization import Visualizer
@@ -7,7 +8,7 @@ from models.conv_net import ConvNet
 from models.pretrained_model import Pretrained_Model
 from utils import Utils
 import pandas as pd
-
+from keras.utils.vis_utils import plot_model
 
 class Trainer:
     def __init__(self, config):
@@ -29,13 +30,13 @@ class Trainer:
                                    filename="Batch_Augmentation" + str(self.img_height) + "x" + str(
                                        self.img_height) + ".png")
 
-        # model = self.cnnModel.get_model(self.img_height, self.img_width)
-
-        backbone = self.model_pretrained.createBackboneModel(vgg=True)
+        backbone = self.model_pretrained.createBackboneModel(resnet=True)
         backbone.summary()
+        plot_model(backbone, to_file='DLO_Graphs/resnet-backbone.png', show_shapes=True, show_layer_names=True)
 
         model = self.model_pretrained.createModel(backbone, lr=1e-4, drpout1=0.3, drpout2=0.2)
         model.summary()
+        plot_model(model, to_file='DLO_Graphs/resnet-model.png', show_shapes=True, show_layer_names=True)
 
         callbacks, best_model_weights = self.model_pretrained.getCallBacks()
 
@@ -51,28 +52,6 @@ class Trainer:
             self.plot_history(history)
 
         self.saveModel(best_model_weights, model, valid_dataset)
-
-    def fitandPlot(self, model, dataAug, train_data, valid_dataset, EPOCHS=20, INIT_LR=1e-1, BS=64):
-        # Learning Rate Reducer
-        learn_control = ReduceLROnPlateau(
-            monitor='val_accuracy',
-            patience=5,
-            verbose=1, factor=0.2,
-            min_lr=1e-7)  # Checkpoint
-        filepath = "weights.best.hdf5"
-        checkpoint = ModelCheckpoint(filepath,
-                                     monitor='val_accuracy',
-                                     verbose=1,
-                                     save_best_only=True,
-                                     mode='max')
-
-        history = model.fit(
-            train_data,
-            epochs=EPOCHS,
-            validation_data=valid_dataset,
-            callbacks=[learn_control, checkpoint])
-
-        self.plot_history(history)
 
     def plot_history(self, history):
         print("History keys: " + str(history.history.keys()))
@@ -104,3 +83,20 @@ class Trainer:
         df = pd.read_csv(path, index_col='epoch')
         print(df)
         self.visualizer.drawHistory(df.accuracy, df.loss, df.val_accuracy, df.val_loss)
+
+    def predictValidationData_showConfusionMatrix(self, model_path):
+        train_dataset, valid_dataset = self.data.get_images(self.batch_size, self.img_height, self.img_width)
+
+        model = load_model(model_path)
+
+        target_predicted = model.predict(valid_dataset)
+
+        # Konfusionsmatrix erzeugen
+        matrix = confusion_matrix(valid_dataset.labels, target_predicted)
+        dataframe = pd.DataFrame(matrix, index=valid_dataset.class_indices.keys(), columns=valid_dataset.class_indices.keys())
+
+        # Heatmap erzeugen
+        sns.heatmap(dataframe, annot=True, cbar=None, cmap="Blues")
+        plt.title("Konfusionsmatrix"), plt.tight_layout()
+        plt.ylabel("Echte Klasse"), plt.xlabel("Vorhergesagte Klasse")
+        plt.show()

@@ -45,7 +45,7 @@ class Pretrained_Model:
 
         return model
 
-    def createBackboneModel(self, denseNet=False, resnet=False, vgg=False, ):
+    def createBackboneModel(self, denseNet=False, resnet=False, vgg=False):
         """
         For the purpose of this project, the VGG-16 model is selected and instantiated with weights trained on ImageNet.
         The top layer which is the classification layer is excluded and the input shape of the image is set to 224x224x3
@@ -54,53 +54,21 @@ class Pretrained_Model:
         :param vgg:
         :return:
         """
-        if denseNet:
-            backbone = DenseNet201(weights='imagenet', include_top=False,
-                                   input_shape=(224, 224, 3))
         if resnet:
             backbone = ResNet50(weights='imagenet', include_top=False,
                                 input_shape=(224, 224, 3))
+            output = backbone.layers[-1].output
+
         if vgg:
             backbone = VGG16(weights='imagenet', include_top=False,
                              input_shape=(224, 224, 3))
             output = backbone.layers[-1].output
+
         output = keras.layers.Flatten()(output)
         backboneModel = Model(backbone.input, outputs=output)
         for layer in backboneModel.layers:
             layer.trainable = False
             return backboneModel
-
-    def get_model(self, img_height, img_width, summary=True):
-        model = Sequential([
-            Conv2D(16, (3, 3), 1, activation='relu',
-                   input_shape=(img_height, img_width, 3)),  # => Output Feature Maps 222x222x3
-            MaxPooling2D(),
-            # Dropout(0.2),
-            Conv2D(32, (3, 3), 1, activation='relu'),
-            MaxPooling2D(),
-            Conv2D(16, 3, padding='same', activation='relu'),
-            # "same" results in padding with zeros evenly to the left/right or up/down of the input. When padding="same" and strides=1, the output has the same size as the input.
-            MaxPooling2D(),
-            # Dropout(0.2),
-            Flatten(),
-            # Vollständig verbundene Schicht mit einer ReLU-Aktivierungsfunktion
-            # hinzufügen
-            Dense(256, activation='relu'),
-            # Vollständig verbundene Schicht mit einer Sigmoid-Aktivierungsfunktion hinzufügen
-            Dense(4, activation='softmax')  # 4 categories as output channel
-        ])
-
-        opt = SGD(lr=1e-4, momentum=0.99)
-        opt1 = Adam(lr=2e-4)
-
-        model.compile(optimizer='adam',
-                      loss='categorical_crossentropy',
-                      metrics=['accuracy'])
-
-        if summary:
-            model.summary()
-
-        return model
 
     def getCallBacks(self):
         # -------Callbacks-------------#
