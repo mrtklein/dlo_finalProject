@@ -98,14 +98,22 @@ class Trainer:
                                  columns=valid_dataset.class_indices.keys())
         self.visualizer.showHeatmap(dataframe)
 
-    def saveWrongPredictions(self, model_path, wrong_rock=True):
+    def evaluate_saveWrongPredictions(self, model_path, wrong_rock=True, modelname='unknown'):
         train_dataset, valid_dataset = self.data.get_images(self.batch_size, self.img_height, self.img_width)
 
         model = load_model(model_path)
 
-        wrong_predicted = self.getWrongPredictions(model, valid_dataset)
+        # Evaluate the model on the test data using `evaluate`
+        print("Evaluate on test data")
+        results = model.evaluate(valid_dataset, batch_size=32)
 
-        print(f"There are {str(len(wrong_predicted))} wrong predictions.")
+        with open('evaluation_' + modelname + '.txt', 'w') as f:
+            print(f"MODEL: {modelname} "
+                  f"\n"
+                  "test loss, test acc: {results}", file=f)
+
+        wrong_predicted = self.getWrongPredictions(model, valid_dataset)
+        print("There are " + str(len(wrong_predicted)) + "wrong predictions.")
 
         if wrong_rock:
             wrong_rock = list(filter(lambda wrong_predicted: wrong_predicted['prediction'] == 'rock', wrong_predicted))
@@ -117,8 +125,8 @@ class Trainer:
                 y_target = img['actual']
                 count = count + 1
                 self.visualizer.show_save_ImgPredictVsActual(img_file, y_pred, probability, y_target,
-                                                             self.utils.getWrong_predictedDirPath() + "wrong_rock" + str(
-                                                                 count))
+                                                             self.utils.getWrong_predictedDirPath()
+                                                             + "MODEL_" + modelname + "__wrong_rock" + str(count))
 
     def getWrongPredictions(self, model, valid_dataset):
         wrong_predicted = []
@@ -126,6 +134,7 @@ class Trainer:
         while batch_idx < len(valid_dataset):
             try:
                 images, labels = next(valid_dataset)
+
                 target_predicted = model.predict(images, batch_size=1)
                 predicted_class_indices = np.argmax(target_predicted, axis=1)
 

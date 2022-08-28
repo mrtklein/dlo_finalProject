@@ -1,0 +1,2 @@
+MODEL: vgg 
+test loss, test acc: {results}

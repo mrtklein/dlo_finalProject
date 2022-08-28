@@ -1,0 +1,2 @@
+MODEL: resnet 
+test loss, test acc: {results}
