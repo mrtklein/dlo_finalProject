@@ -21,7 +21,7 @@ def main():
 
     trainer = Trainer(config)
 
-    # trainer.train(data_aug="brightness")
+    trainer.train(data_aug="brightness")
     # trainer.loadLogFile('training_csv.log')
     # trainer.showConfusionMatrix(Utils().getModelDirPath() + 'best_model_vgg_brightness.hdf5', "vgg_Confusion_matrix_brightness.png")
     trainer.evaluate_saveWrongPredictions(Utils().getModelDirPath() + 'best_model_vgg.hdf5', wrong_rock=True,

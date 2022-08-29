@@ -35,7 +35,7 @@ class Trainer:
         backbone.summary()
         # plot_model(backbone, to_file='DLO_Graphs/resnet-backbone.png', show_shapes=True, show_layer_names=True)
 
-        model = self.model_pretrained.createModel(backbone, lr=1e-4, drpout1=0.3, drpout2=0.2)
+        model = self.model_pretrained.getModel(backbone, lr=1e-4, drpout1=0.3, drpout2=0.2)
         model.summary()
         # plot_model(model, to_file='DLO_Graphs/resnet-model.png', show_shapes=True, show_layer_names=True)
 

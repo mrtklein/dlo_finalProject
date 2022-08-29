@@ -17,7 +17,7 @@ class Pretrained_Model:
     def __init__(self) -> None:
         self.utils = Utils()
 
-    def createModel(self, backbone, lr=1e-4, dense=128, drpout1=0.5, drpout2=0.25):
+    def getModel(self, backbone, lr=1e-4, dense=128, drpout1=0.5, drpout2=0.25):
         """
         easily adjust the learning rate, the dense layer and the dropout layer.
 
@@ -111,13 +111,4 @@ class Pretrained_Model:
             patience=5,
             verbose=1, factor=0.3,
             min_lr=1e-7)  # Checkpoint
-
-        # reduce = ReduceLROnPlateau(
-        #     monitor='val_loss',
-        #     factor=0.5,
-        #     patience=40,
-        #     verbose=1,
-        #     mode='auto',
-        #     cooldown=1
-        # )
         return [checkpoint, earlystop, tensorboard, csvlogger, learn_control], best_model_weights
