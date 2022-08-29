@@ -31,31 +31,28 @@ class Trainer:
                                    filename="Batch_Augmentation" + data_aug + str(self.img_height) + "x" + str(
                                        self.img_height) + ".png")
 
-        model=self.cnnModel.get_model(self.img_height,self.img_width)
-        plot_model(model, to_file='DLO_Graphs/resnet-backbone.png', show_shapes=True, show_layer_names=True)
+        backbone = self.model_pretrained.createBackboneModel(vgg=True)
+        backbone.summary()
+        # plot_model(backbone, to_file='DLO_Graphs/resnet-backbone.png', show_shapes=True, show_layer_names=True)
 
-        # backbone = self.model_pretrained.createBackboneModel(vgg=True)
-        # backbone.summary()
-        # # plot_model(backbone, to_file='DLO_Graphs/resnet-backbone.png', show_shapes=True, show_layer_names=True)
-        #
-        # model = self.model_pretrained.getModel(backbone, lr=1e-4, drpout1=0.3, drpout2=0.2)
-        # model.summary()
-        # # plot_model(model, to_file='DLO_Graphs/resnet-model.png', show_shapes=True, show_layer_names=True)
-        #
-        # callbacks, best_model_weights = self.model_pretrained.getCallBacks(data_aug)
-        #
-        # history = model.fit(
-        #     train_dataset,
-        #     epochs=self.epochs,
-        #     validation_data=valid_dataset,
-        #     callbacks=callbacks,
-        #     verbose=1
-        # )
-        #
-        # if plot:
-        #     self.plot_history(history)
-        #
-        # self.saveModel(best_model_weights, model, valid_dataset)
+        model = self.model_pretrained.getModel(backbone, lr=1e-4, drpout1=0.3, drpout2=0.2)
+        model.summary()
+        # plot_model(model, to_file='DLO_Graphs/resnet-model.png', show_shapes=True, show_layer_names=True)
+
+        callbacks, best_model_weights = self.model_pretrained.getCallBacks(data_aug)
+
+        history = model.fit(
+            train_dataset,
+            epochs=self.epochs,
+            validation_data=valid_dataset,
+            callbacks=callbacks,
+            verbose=1
+        )
+
+        if plot:
+            self.plot_history(history)
+
+        self.saveModel(best_model_weights, model, valid_dataset)
 
     def plot_history(self, history):
         print("History keys: " + str(history.history.keys()))
