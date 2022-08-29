@@ -18,7 +18,7 @@ class DataLoader:
             #width_shift_range=0.2, # => random positive and negative Shifts. 20% of the width of the image
             #height_shift_range=0.2,
             #rotation_range=90,  # => random rotations via the rotation_range argument
-            #brightness_range=[0.5, 1.2], #=>  randomly darkening images, brightening images (<1.0=>darken,>1.0 brightness)
+            brightness_range=[0.3, 1.3], #=>  randomly darkening images, brightening images (<1.0=>darken,>1.0 brightness)
             # horizontal_flip=False,  # => Randomly flip inputs horizontally.
             # vertical_flip=False,
             #zoom_range=0.2,  # zoom in or out in images,
