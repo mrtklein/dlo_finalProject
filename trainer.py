@@ -23,23 +23,23 @@ class Trainer:
         self.utils = Utils()
         self.visualizer = Visualizer()
 
-    def train(self, plot=True):
+    def train(self, plot=True, data_aug=None):
         train_dataset, valid_dataset = self.data.get_images(self.batch_size, self.img_height, self.img_width)
 
         imgs, labels = next(train_dataset)
         self.visualizer.plot_batch(imgs, titles=labels,
-                                   filename="Batch_Augmentation" + str(self.img_height) + "x" + str(
+                                   filename="Batch_Augmentation" + data_aug + str(self.img_height) + "x" + str(
                                        self.img_height) + ".png")
 
-        backbone = self.model_pretrained.createBackboneModel(resnet=True)
+        backbone = self.model_pretrained.createBackboneModel(vgg=True)
         backbone.summary()
-        plot_model(backbone, to_file='DLO_Graphs/resnet-backbone.png', show_shapes=True, show_layer_names=True)
+        # plot_model(backbone, to_file='DLO_Graphs/resnet-backbone.png', show_shapes=True, show_layer_names=True)
 
         model = self.model_pretrained.createModel(backbone, lr=1e-4, drpout1=0.3, drpout2=0.2)
         model.summary()
-        plot_model(model, to_file='DLO_Graphs/resnet-model.png', show_shapes=True, show_layer_names=True)
+        # plot_model(model, to_file='DLO_Graphs/resnet-model.png', show_shapes=True, show_layer_names=True)
 
-        callbacks, best_model_weights = self.model_pretrained.getCallBacks()
+        callbacks, best_model_weights = self.model_pretrained.getCallBacks(data_aug)
 
         history = model.fit(
             train_dataset,
@@ -85,7 +85,7 @@ class Trainer:
         print(df)
         self.visualizer.drawHistory(df.accuracy, df.loss, df.val_accuracy, df.val_loss)
 
-    def showConfusionMatrix(self, model_path):
+    def showConfusionMatrix(self, model_path, filename):
         train_dataset, valid_dataset = self.data.get_images(self.batch_size, self.img_height, self.img_width)
 
         model = load_model(model_path)
@@ -96,7 +96,7 @@ class Trainer:
         matrix = confusion_matrix(valid_dataset.labels, target_predicted)
         dataframe = pd.DataFrame(matrix, index=valid_dataset.class_indices.keys(),
                                  columns=valid_dataset.class_indices.keys())
-        self.visualizer.showHeatmap(dataframe)
+        self.visualizer.showHeatmap(dataframe, filename=filename)
 
     def evaluate_saveWrongPredictions(self, model_path, wrong_rock=True, modelname='unknown'):
         train_dataset, valid_dataset = self.data.get_images(self.batch_size, self.img_height, self.img_width)
@@ -107,13 +107,14 @@ class Trainer:
         print("Evaluate on test data")
         results = model.evaluate(valid_dataset, batch_size=32)
 
-        with open('evaluation_' + modelname + '.txt', 'w') as f:
+        wrong_predicted = self.getWrongPredictions(model, valid_dataset)
+
+        with open(modelname + '_evaluation.txt', 'w') as f:
             print(f"MODEL: {modelname} "
                   f"\n"
-                  "test loss, test acc: {results}", file=f)
-
-        wrong_predicted = self.getWrongPredictions(model, valid_dataset)
-        print("There are " + str(len(wrong_predicted)) + "wrong predictions.")
+                  f"test loss, test acc: {results}."
+                  f"\n"
+                  f"There are " + str(len(wrong_predicted)) + "wrong predictions.", file=f)
 
         if wrong_rock:
             wrong_rock = list(filter(lambda wrong_predicted: wrong_predicted['prediction'] == 'rock', wrong_predicted))

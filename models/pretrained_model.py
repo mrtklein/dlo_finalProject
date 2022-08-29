@@ -70,12 +70,12 @@ class Pretrained_Model:
             layer.trainable = False
             return backboneModel
 
-    def getCallBacks(self):
+    def getCallBacks(self, data_aug='None'):
         # -------Callbacks-------------#
         #  checkpoints will be saved with the epoch number and the validation loss in the filename
         # best_model_weights = self.utils.getModelDirPath()+'weights.{epoch:02d}-{val_loss:.2f}.hdf5'
 
-        best_model_weights = self.utils.getModelDirPath() + 'best_model-{val_acc:.2f}.hdf5'
+        best_model_weights = self.utils.getModelDirPath() + 'best_model_vgg_' + data_aug + '.hdf5'
 
         log_dir = self.utils.getLogPath()
 
@@ -120,4 +120,4 @@ class Pretrained_Model:
         #     mode='auto',
         #     cooldown=1
         # )
-        return [checkpoint, earlystop, tensorboard, csvlogger,learn_control], best_model_weights
+        return [checkpoint, earlystop, tensorboard, csvlogger, learn_control], best_model_weights

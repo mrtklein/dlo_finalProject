@@ -125,9 +125,9 @@ class Visualizer:
                             hspace=0.4)
         plt.show()
 
-    def showHeatmap(self, dataframe):
+    def showHeatmap(self, dataframe,filename='convMat.png'):
         sns.heatmap(dataframe, annot=True, fmt="g", cmap="Blues")
         plt.title("Konfusionsmatrix"), plt.tight_layout()
         plt.ylabel("Echte Klasse"), plt.xlabel("Vorhergesagte Klasse")
-        plt.savefig("vgg_Confusion_matrix.png")
+        plt.savefig(filename)
         plt.show()

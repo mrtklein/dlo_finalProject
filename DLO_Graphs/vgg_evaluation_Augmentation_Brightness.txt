@@ -1,0 +1,2 @@
+MODEL: vgg_Augmentation_Brightness 
+test loss, test acc: [0.08883137255907059, 0.9819819927215576]
