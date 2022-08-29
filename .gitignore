@@ -29,3 +29,8 @@ __pycache__/
 /logs/**
 model.json
 /input_batches/
+/model_results/best_model_cnn.hdf5
+/model_results/best_model_resnet.hdf5
+/model_results/best_model_vgg.hdf5
+/model_results/best_model_vgg_brightness.hdf5
+/model_results/model-saved.hdf5
