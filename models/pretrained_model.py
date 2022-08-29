@@ -108,8 +108,8 @@ class Pretrained_Model:
         # Learning Rate Reducer
         learn_control = ReduceLROnPlateau(
             monitor='val_accuracy',
-            patience=50,
-            verbose=1, factor=0.2,
+            patience=5,
+            verbose=1, factor=0.3,
             min_lr=1e-7)  # Checkpoint
 
         # reduce = ReduceLROnPlateau(
