@@ -78,7 +78,7 @@ class Visualizer:
         if catNumber == 0:
             return "paper"
 
-    def drawHistory(self, acc, loss, val_acc, val_loss):
+    def drawHistory(self, acc, loss, val_acc, val_loss,lr):
         epochs_range = range(len(acc))
         plt.figure(figsize=(10, 10))
         plt.subplot(1, 2, 1)
@@ -91,7 +91,7 @@ class Visualizer:
                    weight='normal',
                    size=16,
                    labelpad=6)
-        plt.ylabel("Accuracy in %",
+        plt.ylabel("Accuracy",
                    family='serif',
                    color='black',
                    weight='normal',
@@ -108,7 +108,7 @@ class Visualizer:
                    weight='normal',
                    size=16,
                    labelpad=6)
-        plt.ylabel("Loss in %",
+        plt.ylabel("Loss",
                    family='serif',
                    color='black',
                    weight='normal',
@@ -123,6 +123,7 @@ class Visualizer:
                             top=0.9,
                             wspace=0.4,
                             hspace=0.4)
+
         plt.show()
 
     def showHeatmap(self, dataframe,filename='convMat.png'):

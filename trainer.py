@@ -23,23 +23,27 @@ class Trainer:
         self.utils = Utils()
         self.visualizer = Visualizer()
 
-    def train(self, plot=True, data_aug=None):
+    def train(self, plot=True, variant=""):
         train_dataset, valid_dataset = self.data.get_images(self.batch_size, self.img_height, self.img_width)
 
         imgs, labels = next(train_dataset)
         self.visualizer.plot_batch(imgs, titles=labels,
-                                   filename="Batch_Augmentation" + data_aug + str(self.img_height) + "x" + str(
+                                   filename="Experiment: " + variant + str(self.img_height) + "x" + str(
                                        self.img_height) + ".png")
+
+        # base_model = self.model_pretrained.createBaseModel(vgg=True)
+        # base_model.summary()
+        # plot_model(base_model, to_file='DLO_Graphs/vgg-model-tf.png', show_shapes=True, show_layer_names=True)
 
         backbone = self.model_pretrained.createBackboneModel(vgg=True)
         backbone.summary()
-        # plot_model(backbone, to_file='DLO_Graphs/resnet-backbone.png', show_shapes=True, show_layer_names=True)
+        plot_model(backbone, to_file='DLO_Graphs/vgg-backbone.png', show_shapes=True, show_layer_names=True)
 
-        model = self.model_pretrained.getModel(backbone, lr=1e-4, drpout1=0.3, drpout2=0.2)
+        model = self.model_pretrained.getModel(backbone, lr=1e-4, drpout1=0.6, drpout2=0.2)
         model.summary()
-        # plot_model(model, to_file='DLO_Graphs/resnet-model.png', show_shapes=True, show_layer_names=True)
+        plot_model(model, to_file='DLO_Graphs/model_vgg_dropout.png', show_shapes=True, show_layer_names=True)
 
-        callbacks, best_model_weights = self.model_pretrained.getCallBacks(data_aug)
+        callbacks, best_model_weights = self.model_pretrained.getCallBacks(variant=variant)
 
         history = model.fit(
             train_dataset,
@@ -63,7 +67,8 @@ class Trainer:
         loss = history.history['loss']
         val_loss = history.history['val_loss']
 
-        self.visualizer.drawHistory(acc, loss, val_acc, val_loss)
+        learning_rate = history.history['lr']
+        self.visualizer.drawHistory(acc, loss, val_acc, val_loss, learning_rate)
 
     def saveModel(self, best_model_weights, model, valid_dataset):
         model.load_weights(best_model_weights)

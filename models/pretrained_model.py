@@ -42,8 +42,22 @@ class Pretrained_Model:
             optimizer=Adam(learning_rate=lr),
             metrics=['accuracy']
         )
-
         return model
+
+
+    def createBaseModel(self, resnet=False, vgg=False):
+        if resnet:
+            backbone = ResNet50(weights='imagenet', include_top=False,
+                                input_shape=(224, 224, 3))
+        if vgg:
+            backbone = VGG16(weights='imagenet', include_top=False,
+                             input_shape=(224, 224, 3))
+        for layer in backbone.layers:
+            layer.trainable = False
+        avg = keras.layers.GlobalAveragePooling2D()(backbone.output)
+        baseModel = keras.Model(inputs=backbone.input, outputs=avg)
+
+        return baseModel
 
     def createBackboneModel(self, denseNet=False, resnet=False, vgg=False):
         """
@@ -57,25 +71,25 @@ class Pretrained_Model:
         if resnet:
             backbone = ResNet50(weights='imagenet', include_top=False,
                                 input_shape=(224, 224, 3))
-            output = backbone.layers[-1].output
 
         if vgg:
             backbone = VGG16(weights='imagenet', include_top=False,
                              input_shape=(224, 224, 3))
-            output = backbone.layers[-1].output
 
+        backbone.summary()
+        output = backbone.layers[-1].output
         output = keras.layers.Flatten()(output)
         backboneModel = Model(backbone.input, outputs=output)
         for layer in backboneModel.layers:
             layer.trainable = False
             return backboneModel
 
-    def getCallBacks(self, data_aug='None'):
+    def getCallBacks(self, variant='None'):
         # -------Callbacks-------------#
         #  checkpoints will be saved with the epoch number and the validation loss in the filename
         # best_model_weights = self.utils.getModelDirPath()+'weights.{epoch:02d}-{val_loss:.2f}.hdf5'
 
-        best_model_weights = self.utils.getModelDirPath() + 'best_model_vgg_' + data_aug + '.hdf5'
+        best_model_weights = self.utils.getModelDirPath() + 'best_model_vgg_' + variant + '.hdf5'
 
         log_dir = self.utils.getLogPath()
 
