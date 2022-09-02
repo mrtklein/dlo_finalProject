@@ -31,11 +31,22 @@ class Pretrained_Model:
         model = Sequential()
         model.add(backbone)
         model.add(Dropout(drpout1))
-        model.add(Dense(dense, activation='relu'))
-        #     model.add(LeakyReLU(alpha=0.1))
-        #     model.add(BatchNormalization())
-        model.add(Dropout(drpout2))
-        model.add(Dense(4, activation='softmax'))
+        Conv2D(16, (3, 3), 1, activation='relu',
+               input_shape=(224, 224, 3)),  # => Output Feature Maps 222x222x3
+        MaxPooling2D(),
+        # Dropout(0.2),
+        Conv2D(32, (3, 3), 1, activation='relu'),
+        MaxPooling2D(),
+        Conv2D(16, 3, padding='same',
+               activation='relu'),  # "same" results in padding with zeros evenly to the left/right or up/down of the input. When padding="same" and strides=1, the output has the same size as the input.
+        MaxPooling2D(),
+        Dropout(0.2),
+        Flatten(),
+        # Vollständig verbundene Schicht mit einer ReLU-Aktivierungsfunktion
+        # hinzufügen
+        Dense(256, activation='relu'),
+        # Vollständig verbundene Schicht mit einer Sigmoid-Aktivierungsfunktion hinzufügen
+        Dense(4, activation='softmax')  # 4 categories as output channel
 
         model.compile(
             loss=keras.losses.categorical_crossentropy,
