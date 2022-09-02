@@ -28,7 +28,7 @@ class Trainer:
 
         imgs, labels = next(train_dataset)
         self.visualizer.plot_batch(imgs, titles=labels,
-                                   filename="Experiment: " + variant + str(self.img_height) + "x" + str(
+                                   filename="Batch: " + str(self.img_height) + "x" + str(
                                        self.img_height) + ".png")
 
         # base_model = self.model_pretrained.createBaseModel(vgg=True)

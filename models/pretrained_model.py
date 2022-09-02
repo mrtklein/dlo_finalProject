@@ -76,7 +76,6 @@ class Pretrained_Model:
             backbone = VGG16(weights='imagenet', include_top=False,
                              input_shape=(224, 224, 3))
 
-        backbone.summary()
         output = backbone.layers[-1].output
         output = keras.layers.Flatten()(output)
         backboneModel = Model(backbone.input, outputs=output)
