@@ -28,8 +28,7 @@ class Trainer:
 
         imgs, labels = next(train_dataset)
         self.visualizer.plot_batch(imgs, titles=labels,
-                                   filename="Batch: " + str(self.img_height) + "x" + str(
-                                       self.img_height) + ".png")
+                                   filename="Batch.png")
 
         # base_model = self.model_pretrained.createBaseModel(vgg=True)
         # base_model.summary()
@@ -39,7 +38,7 @@ class Trainer:
         backbone.summary()
         plot_model(backbone, to_file='DLO_Graphs/vgg-backbone.png', show_shapes=True, show_layer_names=True)
 
-        model = self.model_pretrained.getModel(backbone, lr=1e-4, drpout1=0.6, drpout2=0.2)
+        model = self.model_pretrained.getModel(backbone, dense1=256, dense2=128, lr=1e-4, drpout1=0.6, drpout2=0.2)
         model.summary()
         plot_model(model, to_file='DLO_Graphs/model_vgg_dropout.png', show_shapes=True, show_layer_names=True)
 

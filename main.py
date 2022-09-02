@@ -14,7 +14,7 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--batch_size', type=int, default=32)
-    parser.add_argument('--epochs', type=int, default=25)
+    parser.add_argument('--epochs', type=int, default=1)
     parser.add_argument('--img_height', type=int, default=224)
     parser.add_argument('--img_width', type=int, default=224)
     config = parser.parse_args()
